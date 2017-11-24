@@ -1,0 +1,29 @@
+<div class="worker">
+	<div>
+		<h3>Добавить работника</h3>
+	</div>
+	<div>
+		<div>Введите имя</div>
+		<input class="input2" type="text" ng-model="worker.name" placeholder="Name">
+	</div>
+	<div>
+		<div>Введите фамилию</div>
+		<input class="input2" type="text" ng-model="worker.surname" placeholder="Surname">
+	</div>
+	<div>
+		<div>Введите время выполнения работы</div>
+		<input class="input2" type="text" ng-model="worker.time" placeholder="Время">
+	</div>
+	<div>
+		<div>Введите должность</div>
+		<input class="input2" type="text" ng-model="worker.position" placeholder="Должность">
+		<!-- <select name="" id=""></select> -->
+	</div>
+	<div>
+		<div>Выберите номер</div>
+		<div ng-repeat="room in rooms" ng-click="pickRoom(room)">{{room.name}}</div>
+	</div>
+	<div>
+		<button class="button darkred" ng-click="CreateWorker()">Добавить работника</button>
+	</div>
+</div>

@@ -1,0 +1,41 @@
+<html>
+    <body>
+        <script type="text/javascript"> 
+        function ChangeStyleRED() 
+		{ 
+			document.getElementById("p1").style.color="red"; 
+
+		}
+		function ChangeStyleGREEN() 
+		{ 
+			document.getElementById("p1").style.color="green"; 
+
+		}
+		function ChangeStyleYELLOW() 
+		{ 
+			document.getElementById("p1").style.color="yellow"; 
+
+		}
+
+	var number, summ=0;
+	do
+	{
+		number=parseInt(prompt("Введите число:", 10));
+		summ+=number;
+	}
+	while(confirm("Продолжим?"))
+	alert("Сумма чисел: "+summ);
+
+	setTimeout(ChangeStyleRED, 1000);
+	setTimeout(ChangeStyleYELLOW, summ*1000 + 1000);
+	setTimeout(ChangeStyleGREEN,  summ*1000 + 5000);
+
+        </script>
+<p id="p1">Привет мир!</p> 
+ 
+
+
+
+
+</body> 
+</html>

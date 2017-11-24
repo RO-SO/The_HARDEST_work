@@ -19,20 +19,9 @@
                     templateUrl : "views/CreateVisitor.html",
                     controller : "CreateVisitorController"
                 })
-
-                .when("/CreateWorker", {
-                    templateUrl : "views/CreateWorker.html",
-                    controller : "CreateWorkerController"
-                })
-                
                 .when("/room", {
                     templateUrl : "views/room.html",
                     controller : "roomController"
-                })
-
-                .when("/workers", {
-                    templateUrl : "views/workers.html",
-                    controller : "workersController"
                 })
     		})
     		.config(function (localStorageServiceProvider) {
@@ -53,64 +42,36 @@
                     $location.path(url);
                     $scope.roomInfo = room;
                 }
-                if (localStorageService.get("message") != null) 
-                {
-                    $scope.rooms = localStorageService.get("message");
-                } 
-
-                else
-                {
-                    $scope.rooms = [];
-                    localStorageService.set("message", $scope.rooms)
+                $scope.loadRooms = function () {
+                    if (localStorageService.get("message") != null) 
+                    {
+                        $scope.rooms = localStorageService.get("message");
+                    } 
+                    else
+                    {
+                        $scope.rooms = [];
+                        localStorageService.set("message", $scope.rooms)
+                    }
                 }
+                $scope.loadRooms();
 
-                 function ChangeStyleYellow() 
-                        { 
-                            document.getElementById("p1").style.color="yellow"; 
-                        }
-                 function ChangeStyleRed() 
-                        { 
-                            document.getElementById("p1").style.color="red"; 
-                        }
-                function ChangeStyleGreen() 
-                { 
-                    document.getElementById("p1").style.color="green"; 
-                }
-
-                var deleteVisitor = function (visitor) {
-            
-                    $scope.roomInfo.visitor = null;
-                    // console.log($scope.roomInfo.visitor);
-                    for (var i = 0; i < rooms.length; i++) {
-                        if (rooms[i].name == $scope.roomInfo.name) {
-                            rooms[i] = $scope.roomInfo;
-                            localStorageService.set("message", rooms);
+                $scope.changeColor = function() {
+                    console.log("check")
+                    for (var i = 0; i < $scope.rooms.length; i++) {
+                        if ($scope.rooms[i].visitor != null) 
+                        {
+                            document.getElementById($scope.rooms[i].name).style.color="red"; 
+                        } 
+                        else 
+                        {
+                            document.getElementById($scope.rooms[i].name).style.color="green"; 
                         }
                     }
                 }
-
-                // $rootScope.Time = function (visitor){
-                // 	console.log(visitor);
-                // 	// console.log(visitor.room);
-                // for (var i = 0; i < $scope.rooms.length; i++) {
-
-                //     if ($scope.rooms[i]==visitor.room) 
-                //     {
-                        
-                //     	console.log("adsfsdfs");
-                        
-                //         setTimeout(ChangeStyleRed(), 1000);
-                //         // setTimeout(ChangeStyleYellow(), visitor.time * 1000 + 1000);
-                //         // setTimeout(deleteVisitor(), visitor.time * 1000 + 1000);
-                //         // setTimeout(ChangeStyleGreen(), visitor.time * 1000 + 5000);
-
-                //         // setTimeout(deleteVisitor(visitor), visitor.time * 1000);
-                //     }
-                // }}
-                
+                 
     		})
 
-            .controller("createRoomController", function($scope, localStorageService) {
+            .controller("createRoomController", function($scope, localStorageService, $location) {
                
                 var rooms = localStorageService.get("message");
 
@@ -120,7 +81,6 @@
                     this.code = code;
                     this.visitor = visitor;
                     this.worker = worker;
-                                       
                 }
            
                 $scope.CreateRoom = function() {
@@ -128,16 +88,9 @@
                     rooms.push(room);
                     localStorageService.set("message", rooms);
                      window.location = "http://localhost:4000"
-                    
                 }
-
-               
-                            
-                
             })
-            
-               
-                
+                            
             .controller("CreateVisitorController", function($scope, localStorageService, $location, $rootScope) {
                 
                 var room;
@@ -160,13 +113,9 @@
                     for (var i = 0; i < rooms.length; i++) {
                         if (rooms[i].name == room.name) {
                             rooms[i].visitor = visitor;
-                            // rooms[i] = room;
                             localStorageService.set("message", rooms);
-                            
-                            // $rootScope.Time(visitor);
-
-                            // $rootScope.visitor = visitor;
-                             window.location = "http://localhost:4000"
+                            $scope.changeColor();
+                            $location.path('');
                             
                         }
                     }
@@ -174,68 +123,13 @@
             })
 
 
-            .controller("CreateWorkerController", function($scope, localStorageService, $location) {
-                
-                var room;
-                var rooms = localStorageService.get("message");
-                function WorkerClass(name, surname, time, position)
-                {
-                    this.name = name;
-                    this.surname = surname;
-                    this.time = time;
-                    this.position = position;
-                }
-
-                $scope.pickRoom = function(pRoom) {
-                    room = pRoom;
-                    console.log(room);
-                }
-                $scope.CreateWorker = function() {
-                    var worker = new WorkerClass($scope.worker.name, $scope.worker.surname, $scope.worker.time,$scope.worker.position);
-                    for (var i = 0; i < rooms.length; i++) {
-                        if (rooms[i].name == room.name) {
-                            room.worker = worker;
-                            rooms[i] = room;
-                            localStorageService.set("message", rooms);
-                            
-                            $location.path('http://localhost:4000');
-                            // Time(visitor);
-                        }
-                    }
-                }
-            })
-
-            
-                
-
-            .controller("roomController", function($scope, $rootScope, localStorageService, $timeout) {
+    .controller("roomController", function($scope, $rootScope, localStorageService, $timeout) {
                
-                
-                $scope.visitor = $scope.roomInfo.visitor;
+        $scope.visitor = $scope.roomInfo.visitor;
 
-                $scope.worker = $scope.roomInfo.worker;
+        $scope.worker = $scope.roomInfo.worker;
 
-                function ChangeStyleYellow() 
-                        { 
-                            document.getElementById("p1").style.color="yellow"; 
-
-                        }
-                 function ChangeStyleRed() 
-                        { 
-                            document.getElementById("p1").style.color="red"; 
-                        }
-                function ChangeStyleGreen() 
-                { 
-                    document.getElementById("p1").style.color="green"; 
-                }
-
-                // $scope.ChangeStyleTimeYellow = $timeout(function()
-                // { 
-                //         return (ChangeStyleRed());
-
-                // }, 5000);
-
-                 function ChangeStyleRED() 
+        function ChangeStyleRED() 
         { 
             document.getElementById("p1").style.color="red"; 
 
@@ -251,81 +145,55 @@
 
         }
 
-    var number, summ=0;
-    do
-    {
-        number=parseInt(prompt("Введите количество дней пребывания:", 10));
-        summ+=number;
-    }
-    while(confirm("Добавить еще?"))
-    alert("Сумма дней прибывания: "+summ);
+        function Update() 
+        { 
+            window.location = "http://localhost:4000/#/";
 
-    setTimeout(ChangeStyleRED, 1000);
-    setTimeout(ChangeStyleYELLOW, summ*1000 + 1000);
-    setTimeout(ChangeStyleGREEN,  summ*1000 + 5000);
-                
+        }
+        if ($scope.visitor != null) {
+            var number, summ=0;
+            do
+            {
+                number=parseInt(prompt("Введите количество дней пребывания:", 10));
+                summ+=number;
+            }
+            while(confirm("Добавить еще?"))
+            alert("Сумма дней прибывания: "+summ);
+
+            setTimeout(ChangeStyleRED, 1000);
+            setTimeout(ChangeStyleYELLOW, summ*1000 + 1000);
+            setTimeout(ChangeStyleGREEN,  summ*1000 + 5000);
+            setTimeout(deleteVisitor, summ*1000 + 7000);
+            setTimeout(Update, summ*1000 + 8000);
+        }
 
 
-                var deleteVisitor = function (visitor) {
-            
-                    $scope.roomInfo.visitor = null;
-                    // console.log($scope.roomInfo.visitor);
-                    for (var i = 0; i < rooms.length; i++) {
-                        if (rooms[i].name == $scope.roomInfo.name) {
-                            rooms[i] = $scope.roomInfo;
-                            localStorageService.set("message", rooms);
-                        }
-                    }
+        function deleteVisitor() {
+            $scope.roomInfo.visitor = null;
+            for (var i = 0; i < $scope.rooms.length; i++) {
+                if ($scope.rooms[i].name == $scope.roomInfo.name) {
+                    $scope.rooms[i] = $scope.roomInfo;
+                    localStorageService.set("message", $scope.rooms);
+                    $scope.changeColor();
                 }
-
-                // $rootScope.Time = function (visitor){
-                // 	console.log(visitor);
-                // 	// console.log(visitor.room);
-                // for (var i = 0; i < $scope.rooms.length; i++) {
-
-                //     if ($scope.rooms[i]==visitor.room) 
-                //     {
-                        
-                //     	console.log("adsfsdfs");
-                //         $rootScope.red = "Red Room";
-                //         // setTimeout(ChangeStyleRed(), 1000);
-                //         // setTimeout(ChangeStyleYellow(), visitor.time * 1000 + 1000);
-                //         // // setTimeout(deleteVisitor(), visitor.time * 1000 + 1000);
-                //         // setTimeout(ChangeStyleGreen(), visitor.time * 1000 + 5000);
-
-                //         // setTimeout(deleteVisitor(visitor), visitor.time * 1000);
-                //     }
-                }
-                )
-            
-
-            .controller("workersController", function($scope) {
-               
-                
-                // $scope.visitor = $scope.roomInfo.visitor;
-
-                $scope.worker = $scope.roomInfo.worker;
-
-                
-                   
-                
-            })
+            }
+        }
+    })
 </script>
 
 
 </head>
-<body  background=sea.jpg  ng-app="Example">
+<body  background=2.jpg  ng-app="Example">
     <div class="main">
     	<div ng-controller="mainController">
-            <button class="knopka" ng-click="goTo('')">Главная</button>
-            <button class="knopka" ng-click="goTo('/CreateRoom')">Добавить номер</button>
-            <button class="knopka" ng-click="goTo('/CreateVisitor')">Добавить поситителя</button>
-            <button class="knopka" ng-click="goTo('/CreateWorker')">Добавить сотрудника</button>
-            <button class="knopka" ng-click="goTo('/workers')">Cписок сотрудников</button>
+            <button class="button darkred" ng-click="goTo('')">Главная</button>
+            <button class="button darkred" ng-click="goTo('/CreateRoom')">Добавить номер</button>
+            <button class="button darkred" ng-click="goTo('/CreateVisitor')">Добавить поситителя</button>
             
             <h3>Список номеров:</h3>
-    		<div ng-repeat="room in rooms" ng-click="goToRoom('/room', room)">{{room.name}}</div>
-            <!-- <button class="knopka" ng-click="deleteSub">Удалить предмет</button> -->
+            <div ng-repeat="room in rooms" ng-click="goToRoom('/room', room)">
+                <p id="{{room.name}}">{{room.name}}</p>
+            </div>
             
     		<div ng-view>
 
