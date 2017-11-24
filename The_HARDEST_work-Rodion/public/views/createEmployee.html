@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <title>Create Employee</title>
+</head>
+<body background=2.jpg >
+	<div class="visitor">
+	<div>
+		<h3>Добавить сотрудника</h3>
+	</div>
+	<div>
+		<div>Введите имя</div>
+		<input class="input2" type="text" ng-model="employee.name" placeholder="Name">
+	</div>
+	<div>
+		<div>Введите фамилию</div>
+		<input class="input2" type="text" ng-model="employee.surname" placeholder="Surname">
+	</div>
+
+	<div>
+		<div>Введите должность</div>
+		<select>
+			<option></option>
+			<option>Уборщица</option>
+			<option>Официан</option>
+			<option>Электрик</option>
+		</select>
+		<input class="input2" type="text" ng-model="employee.position" placeholder="Position">
+	</div>
+
+	<div>
+		<div>Введите количество суток прибывания</div>
+		<input class="input2" type="text" ng-model="employee.time" placeholder="Сутки">
+	</div>
+	
+	<div>
+		<button class="button darkred" ng-click="CreateEmployee()">Добавить employee</button>
+	</div>
+</div>
+   </body>
+</html>
