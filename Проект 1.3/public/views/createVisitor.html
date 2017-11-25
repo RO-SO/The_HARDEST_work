@@ -1,0 +1,21 @@
+<div class="visitor">
+	<div>
+		<h3>Добавить посетителя</h3>
+	</div>
+	<div>
+		<div>Введите имя</div>
+		<input class="input2" type="text" ng-model="visitor.name" placeholder="Name">
+	</div>
+	<div>
+		<div>Введите фамилию</div>
+		<input class="input2" type="text" ng-model="visitor.surname" placeholder="Surname">
+	</div>
+	
+	<div>
+		<div>Выберите номер</div>
+		<div ng-repeat="room in rooms" ng-click="pickRoom(room)">{{room.name}}</div>
+	</div>
+	<div>
+		<button class="button darkred" ng-click="CreateVisitor()">Добавить посетителя</button>
+	</div>
+</div>
